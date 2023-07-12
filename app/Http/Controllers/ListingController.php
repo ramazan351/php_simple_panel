@@ -15,7 +15,7 @@ class ListingController extends Controller
     }
     public function show(Listing $listing)
     {
-        return view('listing.index', [
+        return view('listings.index', [
             'listing' => $listing
         ]);
     }
