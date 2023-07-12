@@ -14,6 +14,12 @@ class Listing extends Model
         $query->when($filters['tag'] ?? false, function ($query, $search) {
             return $query->where('tags', 'like', '%' . $search . '%');
         });
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where('tags', 'like', '%' . $search . '%')
+            ->orWhere('description', 'like', '%' . $search . '%')
+            ->orWhere('company', 'like', '%' . $search . '%')
+            ->orWhere('tags', 'like', '%' . $search . '%');
+        });
     }
 
 }
