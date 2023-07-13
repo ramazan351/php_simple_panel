@@ -35,7 +35,8 @@ class ListingController extends Controller
             'location' => 'required',
             'email' => 'required|email',
             'tags' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         if ($request->hasFile('logo')) {
           $formFields['logo']=  $request->file('logo')->store('logos', 'public');
@@ -44,6 +45,29 @@ class ListingController extends Controller
         Listing::create($formFields);
 
         return redirect('/')->with('message', 'Thanks for your submission');
+
+
+    }
+    public function update(Request $request, Listing $listing)
+    {
+
+        $formFields=  $request->validate([
+            'title' => 'required',
+            'company' => 'required',
+            'website' => 'required',
+            'location' => 'required',
+            'email' => 'required|email',
+            'tags' => 'required',
+            'description' => 'required',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        if ($request->hasFile('logo')) {
+          $formFields['logo']=  $request->file('logo')->store('logos', 'public');
+        }
+        // dd($formFields);
+        Listing::create($formFields);
+
+        return back()->with('message', 'Thanks for your editing');
 
 
     }
