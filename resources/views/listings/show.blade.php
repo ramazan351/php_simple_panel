@@ -4,7 +4,9 @@
     <div class="mx-4">
         <x-card>
             <div class="flex flex-col items-center justify-center text-center">
-                <img class="w-48 mr-6 mb-6" src="{{ asset('images/no-image.png') }}" alt="" />
+                <img class="w-48 mr-6 mb-6"
+                    src="{{ $listing->logo ? Storage::url($listing->logo) : asset('/images/no-image.png') }}"
+                    alt="" />
 
                 <h3 class="text-2xl mb-2">{{ $listing->title }}</h3>
                 <div class="text-xl font-bold mb-4">{{ $listing->company }}</div>
@@ -35,6 +37,10 @@
                     </div>
                 </div>
             </div>
+        </x-card>
+        <x-card class="mt-8 p-4 flex space-x-6">
+            <a href="/listings/{{ $listing->id }}/edit"
+                class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">Edit</a>
         </x-card>
     </div>
 </x-layout>

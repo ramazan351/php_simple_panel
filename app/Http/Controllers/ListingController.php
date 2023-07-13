@@ -11,12 +11,12 @@ class ListingController extends Controller
     public function index()
     {
         return view('listings.index', [
-            'listings' => Listing::latest()->filter(request(['tag','search']))->get()
+            'listings' => Listing::latest()->filter(request(['tag','search']))->paginate(4)->withQueryString()
         ]);
     }
     public function show(Listing $listing)
     {
-       // dd($listing);
+        // dd($listing->logo);
         return view('listings.show', [
             'listing' => $listing
         ]);
@@ -28,7 +28,7 @@ class ListingController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request, [
+        $formFields=  $request->validate([
             'title' => 'required',
             'company' => ['required',Rule::unique('listings', 'company')],
             'website' => 'required',
@@ -37,10 +37,20 @@ class ListingController extends Controller
             'tags' => 'required',
             'description' => 'required'
         ]);
+        if ($request->hasFile('logo')) {
+          $formFields['logo']=  $request->file('logo')->store('logos', 'public');
+        }
+        // dd($formFields);
+        Listing::create($formFields);
 
-        Listing::create($request->all());
         return redirect('/')->with('message', 'Thanks for your submission');
 
 
+    }
+    public function edit(Listing $listing)
+    {
+        return view('listings.edit', [
+            'listing' => $listing
+        ]);
     }
 }

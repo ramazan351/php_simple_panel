@@ -27,6 +27,7 @@ Route::post('/listings', [ListingController::class, 'store']);
 
 // single listing
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit']);
 
 /*
 Route::get('/hello', function () {
